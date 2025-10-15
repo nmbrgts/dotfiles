@@ -1,0 +1,38 @@
+fish_color_autosuggestion 90918A # fg-dim
+fish_color_cancel --reverse
+fish_color_command E7A06F # yellow-cooler / builtin
+fish_color_comment EAB780 # yellow-faint / comment
+fish_color_cwd E8E4B1 # fg-main
+fish_color_cwd_root E8E4B1 # fg-main
+fish_color_end E8E4B1 # fg-main
+fish_color_error B02930 # bg-red-intense / bg-search-replace
+fish_color_escape 6FD560 # green / fnname
+fish_color_history_current --bold
+fish_color_host E8E4B1 # fg-main
+fish_color_host_remote
+fish_color_keyword
+fish_color_match --background=98BFFF # blue-warmer / constant
+fish_color_normal E8E4B1 # fg-main
+fish_color_operator 6FD560 # green / fnname (same as escapes)
+fish_color_option
+fish_color_param E8E4B1 # fg-main
+fish_color_quote FFA21F # yellow-warmer / string
+fish_color_redirection 7FC5DF # cyan-warmer / rainbow-4
+fish_color_search_match 'bryellow'  '--background=brblack'
+fish_color_selection 'white'  '--bold'  '--background=brblack'
+fish_color_status FF7F7F # red
+fish_color_user A0D26F # green-faint
+fish_color_valid_path --underline
+fish_pager_color_background
+fish_pager_color_completion E8E4B1 # fg-main
+fish_pager_color_description E89A88 # red-faint / docstring
+fish_pager_color_prefix 'normal'  '--bold'  '--underline'
+fish_pager_color_progress 90918A --background=483426 # fg-dim / bg-dim
+fish_pager_color_secondary_background
+fish_pager_color_secondary_completion
+fish_pager_color_secondary_description
+fish_pager_color_secondary_prefix
+fish_pager_color_selected_background --background=59463F # bg-alt
+fish_pager_color_selected_completion
+fish_pager_color_selected_description
+fish_pager_color_selected_prefix

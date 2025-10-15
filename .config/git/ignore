@@ -1,0 +1,7 @@
+# direnv
+.env
+.envrc
+
+# emacs
+.dir-locals.el
+project-todo.org
