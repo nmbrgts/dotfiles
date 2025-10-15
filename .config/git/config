@@ -1,9 +1,10 @@
 [github]
-	user = nmbrgts
+    user = nmbrgts
 [user]
 	name = nmbrgts
 	email = 19834579+nmbrgts@users.noreply.github.com
 [merge]
     conflictstyle = zdiff3
 [core]
-	excludesFile = ~/.config/git/ignore
+    excludesFile = ~/.config/git/ignore
+    editor = emacs -nw -q

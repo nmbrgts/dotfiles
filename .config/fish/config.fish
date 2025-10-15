@@ -2,25 +2,29 @@ function fish_prompt
     printf '\n%%%% '
 end
 
-# brew installed executables
-fish_add_path --append /opt/local/bin
+# brew
+if test (uname -m) = "x86_64"
+    /usr/local/bin/brew shellenv | source
+else
+    /opt/homebrew/bin/brew shellenv | source
+end
 
-# qlot installed executables?
-fish_add_path --append /Users/nmbrgts/.qlot/bin
+# brew installed executables
+fish_add_path --append (brew --prefix)/bin
 
 # go toolchain installed executables
 fish_add_path --append $HOME/go/bin
 
 # pipx installed executables
-fish_add_path --append /Users/nmbrgts/.local/bin
+pipx ensurepath &> /dev/null
 
 # prefer brew installed llvm
-fish_add_path --prepend /usr/local/opt/llvm/bin
+fish_add_path --prepend (brew --prefix llvm)/bin
 
 # prefer brew installed gnutils
-fish_add_path --prepend /usr/local/opt/coreutils/libexec/gnubin
-fish_add_path --prepend /usr/local/opt/moreutils/libexec/bin/
-fish_add_path --prepend /usr/local/opt/findutils/libexec/gnubin/
+fish_add_path --prepend (brew --prefix coreutils)/libexec/gnubin
+fish_add_path --prepend (brew --prefix moreutils)/libexec/bin/
+fish_add_path --prepend (brew --prefix findutils)/libexec/gnubin/
 
-# brew
-eval "$(/usr/local/bin/brew shellenv)"
+# direnv
+direnv hook fish | source
