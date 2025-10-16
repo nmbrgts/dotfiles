@@ -1,8 +1,8 @@
 [github]
     user = nmbrgts
 [user]
-	name = nmbrgts
-	email = 19834579+nmbrgts@users.noreply.github.com
+    name = nmbrgts
+    email = 19834579+nmbrgts@users.noreply.github.com
 [merge]
     conflictstyle = zdiff3
 [core]
