@@ -1,81 +1,160 @@
-#! /bin/bash
+#!/usr/bin/env bash
 
-if ! command -v brew > /dev/null 2>&1
-then
+set -eou pipefail
+
+log_info() {
+    echo -e "\033[0;32m[INFO]\033[0m $1"
+}
+
+log_warn() {
+    echo -e "\033[1;33m[WARN]\033[0m $1"
+}
+
+log_error() {
+    echo -e "\033[0;31m[ERROR]\033[0m $1"
+}
+
+prefix() {
+    local prefix="${1##*/}"
+    local regex="s/^/[$prefix] /"
+    "$@" > >(sed "$regex") 2> >(sed "$regex" >&2)
+}
+
+# brew
+
+if ! command -v brew > /dev/null 2>&1; then
+    log_info "installing brew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+    if [[ $(uname -m) == "arm64" ]]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    else
+        eval "$(/usr/local/bin/brew shellenv)"
+    fi
+else
+    log_info "brew already installed"
 fi
 
-brew update
+log_info "updating brew..."
 
-brew upgrade
+prefix brew update
+
+log_info "upgrading existing packages..."
+
+prefix brew upgrade
 
 # tools
-brew install fish
-brew install git
-brew install coreutils
-brew install findutils
-brew install moreutils
-brew install gnu-sed
-brew install gnu-tar
-brew install gawk
-brew install fd
-brew install tree
-brew install ispell
-brew install mediainfo
-brew install ripgrep
-brew install wget
-brew install sqlite
-brew install cmake
-brew install grep
-brew install direnv
-brew install shellcheck
-brew install openssl
-brew install openssh
-brew install libsqlite3-dev
-brew install zlib
+log_info "installing brew packages..."
+
+packages=(
+    fish
+    git
+    coreutils
+    findutils
+    moreutils
+    gnu-sed
+    gnu-tar
+    gawk
+    fd
+    tree
+    ispell
+    mediainfo
+    ripgrep
+    wget
+    sqlite
+    cmake
+    grep
+    direnv
+    shellcheck
+    openssl
+    openssh
+    zlib
+    llvm
+    clang-format
+    go
+    pipx
+)
+
+for package in "${packages[@]}"; do
+    log_info "installing $package..."
+    prefix brew install "$package" || log_warn "Failed to install $package"
+done
 
 # emacs
-brew tap d12frosted/emacs-plus
-brew install emacs-plus
-
-# c
-brew install llvm
-brew install clang
+log_info "installing emacs..."
+prefix brew tap d12frosted/emacs-plus
+prefix brew install emacs-plus || log_warn "failed to install emacs"
 
 # go
-brew install go
-go install golang.org/x/tools/gopls@latest
-go install golang.org/x/tools/cmd/goimports@latest
-go install mvdan.cc/gofumpt@latest
+log_info "installing go tools..."
+
+go_tools=(
+    golang.org/x/tools/gopls
+    golang.org/x/tools/cmd/goimports
+    mvdan.cc/gofumpt
+)
+
+if ! command -v go > /dev/null 2>&1; then
+    log_warn "skipping go tools. go not installed."
+else
+    for tool in "${go_tools[@]}"; do
+        log_info "installing $tool..."
+        prefix go install "${tool}@latest" || log_warn "failed to install $tool"
+    done
+fi
 
 # python
-brew install pipx
-pipx install ruff
-pipx install pyflakes
-pipx install black
-pipx install isort
-pipx install poetry
-pipx install uv
-pipx install basedpyright
-pipx install cookiecutter
-pipx install pytest
+log_info "installing python tools..."
 
-# disable hot keys that conflict with emacs
-# M-.
-defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 15 '<dict><key>enabled</key><false/></dict>'
-# M-;
-defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 16 '<dict><key>enabled</key><false/></dict>'
-# M-s-d
-defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 52 '<dict><key>enabled</key><false/></dict>'
-# S-SPC
-defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 60 '<dict><key>enabled</key><false/></dict>'
-# S-M-SPC
-defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 61 '<dict><key>enabled</key><false/></dict>'
-# M-SPC
-defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 '<dict><key>enabled</key><false/></dict>'
-# C-SPC
-defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 65 '<dict><key>enabled</key><false/></dict>'
-# C-M-d
-defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 70 '<dict><key>enabled</key><false/></dict>'
-# make effective immediately
+python_tools=(
+    ruff
+    pyflakes
+    black
+    isort
+    poetry
+    uv
+    basedpyright
+    cookiecutter
+    pytest
+)
+
+if ! command -v pipx > /dev/null 2>&1; then
+    log_warn "skipping python tools. pipx not installed."
+else
+    for tool in "${python_tools[@]}"; do
+        log_info "installing $tool..."
+        prefix pipx install "$tool" || log_warn "failed to install $tool"
+    done
+fi
+
+# macos
+log_info "configuring macos settings..."
+
+# hotkeys that conflict with emacs
+hotkeys=(
+    15 # M-.
+    16 # M-;
+    52 # M-s-d
+    60 # S-SPC
+    61 # S-M-SPC
+    64 # M-SPC
+    65 # C-SPC
+    70 # C-M-d
+)
+
+for key in "${hotkeys[@]}"; do
+    defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add "$key" '<dict><key>enabled</key><false/></dict>'
+done
+
 /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+
+# general settings
+defaults write com.apple.finder AppleShowAllFiles -bool true
+defaults write com.apple.finder ShowPathbar -bool true
+defaults write com.apple.finder ShowStatusBar -bool true
+defaults write com.apple.LaunchServices LSQuarantine -bool false
+
+killall Finder 2>/dev/null || true
+killall SystemUIServer 2>/dev/null || true
+
+log_info "done!"
