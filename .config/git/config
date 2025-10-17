@@ -8,3 +8,5 @@
 [core]
     excludesFile = ~/.config/git/ignore
     editor = emacs -nw -q
+[include]
+    path = ./private
