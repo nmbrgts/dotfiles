@@ -28,3 +28,10 @@ fish_add_path --prepend (brew --prefix findutils)/libexec/gnubin/
 
 # direnv
 direnv hook fish | source
+
+# vterm
+if test "$INSIDE_EMACS" = 'vterm'
+    and test -n "$EMACS_VTERM_PATH"
+    and test -f "$EMACS_VTERM_PATH/etc/emacs-vterm.fish"
+	source "$EMACS_VTERM_PATH/etc/emacs-vterm.fish"
+end
