@@ -33,3 +33,7 @@ if test "$INSIDE_EMACS" = 'vterm'
     end
     set -gx GIT_EDITOR "vi"
 end
+
+if test "$EMACS_THEME" = "ef-melissa-light"
+   fish_config theme choose light
+end
