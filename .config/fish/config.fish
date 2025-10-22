@@ -12,7 +12,7 @@ fish_add_path --append (brew --prefix)/bin
 fish_add_path --append $HOME/go/bin
 
 # pipx installed executables
-pipx ensurepath &> /dev/null
+fish_add_path --append $HOME/.local/bin
 
 # prefer brew installed llvm
 fish_add_path --prepend (brew --prefix llvm)/bin
