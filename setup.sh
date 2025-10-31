@@ -116,7 +116,7 @@ python_tools=(
     isort
     poetry
     uv
-    basedpyright
+    'basedpyright==1.31.7'
     cookiecutter
     pytest
 )
