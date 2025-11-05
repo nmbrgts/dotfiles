@@ -114,11 +114,14 @@ python_tools=(
     pyflakes
     black
     isort
+    reorder-python-imports
     poetry
     uv
     'basedpyright==1.31.7'
     cookiecutter
     pytest
+    pre-commit
+    tox
 )
 
 if ! command -v pipx > /dev/null 2>&1; then
