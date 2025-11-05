@@ -1,7 +1,11 @@
 # direnv
 .env
 .envrc
+.direnv/
 
 # emacs
 .dir-locals.el
 project-todo.org
+
+# lsp
+pyrightconfig.json
