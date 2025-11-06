@@ -25,6 +25,9 @@ fish_add_path --prepend (brew --prefix findutils)/libexec/gnubin/
 # direnv
 direnv hook fish | source
 
+# pipenv
+set -gx PIPENV_VENV_IN_PROJECT 1
+
 # vterm
 if test "$INSIDE_EMACS" = 'vterm'
     function clear

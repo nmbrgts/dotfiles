@@ -115,6 +115,7 @@ python_tools=(
     black
     isort
     reorder-python-imports
+    pipenv
     poetry
     uv
     'basedpyright==1.31.7'
