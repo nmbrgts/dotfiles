@@ -15,7 +15,9 @@ log_error() {
 }
 
 prefix() {
-    local prefix="${1##*/}"
+    local cmd="$1"
+    [[ "$cmd" == "sudo" ]] && cmd="$2"
+    local prefix="${cmd##*/}"
     local regex="s/^/[$prefix] /"
     "$@" > >(sed "$regex") 2> >(sed "$regex" >&2)
 }
@@ -54,6 +56,7 @@ packages=(
     moreutils
     gnu-sed
     gnu-tar
+    man-db
     gawk
     fd
     tree
@@ -163,5 +166,9 @@ defaults write com.apple.LaunchServices LSQuarantine -bool false
 
 killall Finder 2>/dev/null || true
 killall SystemUIServer 2>/dev/null || true
+
+log_info "building mandb cache..."
+prefix sudo mandb /Library/Developer/CommandLineTools/usr/share/man
+prefix sudo mandb /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/share/man
 
 log_info "done!"

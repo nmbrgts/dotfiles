@@ -22,6 +22,9 @@ fish_add_path --prepend (brew --prefix coreutils)/libexec/gnubin
 fish_add_path --prepend (brew --prefix moreutils)/libexec/bin/
 fish_add_path --prepend (brew --prefix findutils)/libexec/gnubin/
 
+# prefer brew installed man-db
+fish_add_path --prepend (brew --prefix man-db)/libexec/bin/
+
 # direnv
 direnv hook fish | source
 
