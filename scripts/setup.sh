@@ -76,6 +76,7 @@ packages=(
     clang-format
     go
     pipx
+    typos-cli
 )
 
 for package in "${packages[@]}"; do
