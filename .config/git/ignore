@@ -1,9 +1,11 @@
 # direnv
+.direnv/
 .env
 .envrc
-.direnv/
 
 # emacs
+.*-tabspaces-session.el
+.agent-shell/
 .dir-locals.el
 project-todo.org
 
