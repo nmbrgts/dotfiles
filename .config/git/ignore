@@ -11,3 +11,7 @@ project-todo.org
 
 # lsp
 pyrightconfig.json
+
+# agents
+.claude/settings.local.json
+CLAUDE.md
