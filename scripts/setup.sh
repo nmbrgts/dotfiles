@@ -84,6 +84,10 @@ for package in "${packages[@]}"; do
     prefix brew install "$package" || log_warn "Failed to install $package"
 done
 
+log_info "installing iosevka fonts..."
+prefix brew --cask font-iosevka
+prefix brew --cask font-iosevka-aile
+
 # emacs
 log_info "installing emacs..."
 prefix brew tap d12frosted/emacs-plus
