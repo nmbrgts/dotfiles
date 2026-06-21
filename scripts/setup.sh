@@ -89,9 +89,6 @@ log_info "installing emacs..."
 prefix brew tap d12frosted/emacs-plus
 prefix brew install emacs-plus || log_warn "failed to install emacs"
 
-log_info "Installing Emacs packages..."
-prefix emacs --batch -l ~/.emacs.d/init.el --eval "(vterm)" --kill
-
 # go
 log_info "installing go tools..."
 
